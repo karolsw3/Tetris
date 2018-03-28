@@ -10,6 +10,7 @@ class Game {
     this.View = {}
     this.canvas = document.getElementById('canvas')
     this.ctx = this.canvas.getContext('2d')
+    this.board = []
     this.paused = false
     this.score = 0
   }
@@ -17,8 +18,9 @@ class Game {
   /**
    * Initalize the game and start it
    */
-  start () {
-
+  init (sizeX, sizeY) {
+    // Fill the board with empty tiles
+    this.board = Array(...Array(sizeX)).map(() => Array(sizeY))
   }
 
   /**
@@ -38,9 +40,9 @@ class Game {
 
   /**
    * Fired when any key is pressed
-   * @param {object} event - Document click event
+   * @param {object} event - Document keydown event
    */
-  onKeyDown (event) {
+  keyDown (event) {
     let keyCode = event.keyCode
   }
 

@@ -1,4 +1,4 @@
 import Game from './Game.js'
 
 var game = new Game()
-game.start()
+game.init(45, 20)
