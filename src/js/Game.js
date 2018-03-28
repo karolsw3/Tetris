@@ -20,6 +20,12 @@ class Game {
     this.board = Array(...Array(sizeX)).map(() => Array(sizeY))
   }
 
+  startGameInterval (frameTime) {
+    setInterval(() => {
+      
+    }, frameTime)
+  }
+
   /**
    * Restart the game
    */
