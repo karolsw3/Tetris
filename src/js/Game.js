@@ -9,7 +9,7 @@ class Game {
 
     this.View = {}
     this.canvas = document.getElementById('canvas')
-    this.ctx = this.canvas.msGetInputContext('2d')
+    this.ctx = this.canvas.getContext('2d')
     this.paused = false
     this.score = 0
   }
