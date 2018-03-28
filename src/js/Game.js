@@ -4,9 +4,6 @@
  */
 class Game {
   constructor () {
-    // Bindings
-    this.resizeCanvas = this.resizeCanvas.bind(this)
-
     this.View = {}
     this.canvas = document.getElementById('canvas')
     this.ctx = this.canvas.getContext('2d')
