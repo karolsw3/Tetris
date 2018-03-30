@@ -1,15 +1,17 @@
 import Block from './Block'
+
 /**
  * Main class responsible for everything what is going on in the game
  * @constructor Game
  */
 class Game {
   constructor () {
-    this.View = {}
     this.canvas = document.getElementById('canvas')
     this.ctx = this.canvas.getContext('2d')
-    this.blocks = []
-    this.board = []
+    this.actualBlock = {}
+    this.sizeX = 0
+    this.sizeY = 0
+    this.landed = []
     this.paused = false
     this.score = 0
   }
@@ -18,46 +20,75 @@ class Game {
    * Initalize the game and start it
    */
   init (sizeX, sizeY) {
-    // Fill the board with empty tiles
-    this.board = Array(...Array(sizeX)).map(() => Array(sizeY))
+    this.sizeX = sizeX
+    this.sizeY = sizeY
+    // Fill the landed array with empty tiles
+    this.landed = Array(...Array(sizeX)).map(() => Array(sizeY))
     this.createBlock(Math.round(sizeX / 2), Math.round(sizeY / 2))
     this.startGameInterval(800)
   }
 
   startGameInterval (frameTime) {
     setInterval(() => {
-      this.moveBlocksDown()
+      this.moveActualBlockDown()
     }, frameTime)
   }
 
   createBlock (x, y) {
-    this.blocks.push(new Block(x, y))
+    this.actualBlock = new Block(x, y)
   }
 
   /**
-   * Moves all floating blocks one row down (Acts like a gravity)
+   * Moves actual block one row down (Acts like a gravity)
    */
-  moveBlocksDown () {
-    this.blocks.map(block => {
-      if (block.y > 0) { // TODO Check collisions between blocks
-        block.y -= 1
+  moveActualBlockDown () {
+    // If any collision occurs - add the block to the landed blocks array
+    if (this.checkBlockCollision(this.actualBlock) || this.actualBlock.pos.y === 0) {
+      this.landBlock(this.actualBlock)
+      this.createBlock(Math.round(this.sizeX / 2), Math.round(this.sizeY / 2))
+    } else {
+      this.actualBlock.pos.y -= 1
+    }
+  }
+
+  /**
+   * Adds actual block to the landed array
+   */
+  landBlock () {
+    for (let x = 0; x < this.actualBlock.shape.length; x++) {
+      for (let y = 0; y < this.actualBlock.shape[x]; y++) {
+        this.landed[x][y] = 1
       }
-    })
+    }
+  }
+
+  /**
+   * Check actual block collision with landed blocks on the landed array
+   */
+  checkBlockCollision () {
+    let collision = false
+    for (let x = 0; x < this.actualBlock.shape.length; x++) {
+      for (let y = 0; y < this.actualBlock.shape[x]; y++) {
+        if (this.landed[x][y - 1] === 1) collision = true
+      }
+    }
+    return collision
   }
 
   /**
    * Restart the game
    */
   restart () {
-    this.blocks = []
+    this.landed = Array(...Array(this.sizeX)).map(() => Array(this.sizeY))
+    this.createBlock(Math.round(this.sizeX / 2), Math.round(this.sizeY / 2))
   }
 
   /**
    * Resize canvas to standard width and height
    */
   resizeCanvas () {
-    this.canvas.width = this.board.sizeX * this.board.tileWidth
-    this.canvas.height = this.board.sizeY * this.board.tileWidth
+    this.canvas.width = this.landed.sizeX * this.landed.tileWidth
+    this.canvas.height = this.landed.sizeY * this.landed.tileWidth
   }
 
   /**
@@ -67,7 +98,7 @@ class Game {
   keyDown (event) {
     let keyCode = event.keyCode
     if (keyCode === 83 || keyCode === 40) { // s OR down arrow
-      this.moveBlocksDown()
+      this.moveActualBlockDown()
     }
   }
 
