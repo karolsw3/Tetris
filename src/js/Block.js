@@ -74,5 +74,24 @@ class Block {
         ]
     }
   }
+
+  get color () {
+    switch (this.type) {
+      case 0:
+        return 'blue'
+      case 1:
+        return 'red'
+      case 2:
+        return 'yellow'
+      case 3:
+        return 'green'
+      case 4:
+        return 'purple'
+      case 5:
+        return 'red'
+      case 6:
+        return 'blue'
+    }
+  }
 }
 export default Block

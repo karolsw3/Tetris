@@ -31,6 +31,7 @@ class Game {
   startGameInterval (frameTime) {
     setInterval(() => {
       this.moveActualBlockDown()
+      this.view.renderFrame(this.landed, this.actualBlock)
     }, frameTime)
   }
 
@@ -57,7 +58,7 @@ class Game {
   landBlock () {
     for (let x = 0; x < this.actualBlock.shape.length; x++) {
       for (let y = 0; y < this.actualBlock.shape[x]; y++) {
-        this.landed[this.actualBlock.x + x][this.actualBlock.y + y] = 1
+        this.landed[this.actualBlock.x + x][this.actualBlock.y + y] = this.actualBlock.type
       }
     }
   }

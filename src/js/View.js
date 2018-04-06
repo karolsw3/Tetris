@@ -1,3 +1,5 @@
+import Block from './Block'
+
 /**
  * Class responsible for game visual display
  * @constructor View
@@ -19,8 +21,11 @@ class View {
     this._drawBackground(this.backgroundColor)
     for (let i = 0; i < landed.length; i++) {
       for (let j = 0; j < landed[0].length; j++) {
-        if (landed[i][j] === 1) {
-          this._drawSquare(i, j, this.tileWidth, '#aaaaaa')
+        if (landed[i][j] !== 0) {
+          // Create new block to get its color by its type
+          let block = new Block()
+          block.type = landed[i][j]
+          this._drawSquare(i, j, this.tileWidth, block.color)
         }
       }
     }
