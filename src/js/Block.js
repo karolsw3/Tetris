@@ -1,7 +1,7 @@
 /**
- * (Paweł)
- * Block game element schema
-*/
+ * Class responsible for providing information about block type and its location
+ * @constructor Block
+ */
 class Block {
   constructor (param) {
     // Generate Locations
@@ -11,7 +11,7 @@ class Block {
         return undefined
       })()
     )
-    this.x = (
+    this.y = (
       param.loc.y || (function () {
         console.warn("Location y isn't defined")
         return undefined
@@ -19,6 +19,60 @@ class Block {
     )
     // Generate number from range ( 0 - 6 ) - 7 elements
     this.type = Math.round(Math.random() * 6)
+  }
+
+  get shape () {
+    switch (this.type) {
+      case 0:
+        return [
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [1, 1, 1, 1]
+        ]
+      case 1:
+        return [
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [1, 0, 0, 0],
+          [1, 1, 1, 0]
+        ]
+      case 2:
+        return [
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 1, 0],
+          [1, 1, 1, 0]
+        ]
+      case 3:
+        return [
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [1, 1, 0, 0],
+          [1, 1, 0, 0]
+        ]
+      case 4:
+        return [
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 1, 1, 0],
+          [1, 1, 0, 0]
+        ]
+      case 5:
+        return [
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 1, 0, 0],
+          [1, 1, 1, 0]
+        ]
+      case 6:
+        return [
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [1, 1, 0, 0],
+          [0, 1, 1, 0]
+        ]
+    }
   }
 }
 export default Block
