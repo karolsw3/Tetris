@@ -1,4 +1,5 @@
 import Block from './Block'
+import View from './View'
 
 /**
  * Main class responsible for everything what is going on in the game
@@ -6,8 +7,7 @@ import Block from './Block'
  */
 class Game {
   constructor () {
-    this.canvas = document.getElementById('canvas')
-    this.ctx = this.canvas.getContext('2d')
+    this.view = new View()
     this.actualBlock = {}
     this.sizeX = 0
     this.sizeY = 0
@@ -81,14 +81,6 @@ class Game {
   restart () {
     this.landed = Array(...Array(this.sizeX)).map(() => Array(this.sizeY))
     this.createBlock(Math.round(this.sizeX / 2), Math.round(this.sizeY / 2))
-  }
-
-  /**
-   * Resize canvas to standard width and height
-   */
-  resizeCanvas () {
-    this.canvas.width = this.landed.sizeX * this.landed.tileWidth
-    this.canvas.height = this.landed.sizeY * this.landed.tileWidth
   }
 
   /**
