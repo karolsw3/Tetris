@@ -21,7 +21,6 @@ export class Game {
    * Initalize the game and start it
    */
   init (sizeX, sizeY) {
-    console.log('Initialising the game...')
     this.view = new View(sizeX, sizeY)    
     this.sizeX = sizeX
     this.sizeY = sizeY
@@ -29,13 +28,17 @@ export class Game {
     this.landed = Array(...Array(sizeX)).map(() => Array(sizeY).fill(0))
     this.createBlock(Math.round(sizeX / 2), Math.round(sizeY / 2))
     this.startGameInterval(200)
+
+    document.addEventListener('keydown', (e) => this.keyDown(e))
   }
 
   startGameInterval (frameTime) {
     setInterval(() => {
       this.moveActualBlockDown()
-      this.view.renderFrame(this.landed, this.actualBlock)
     }, frameTime)
+    setInterval(() => {
+      this.view.renderFrame(this.landed, this.actualBlock)
+    }, 10)
   }
 
   createBlock (x, y) {
@@ -47,11 +50,27 @@ export class Game {
    */
   moveActualBlockDown () {
     // If any collision occurs - add the block to the landed blocks array
-    if (this.checkBlockCollision() || this.actualBlock.y === 0) {
+    if (this.checkBlockCollision('down') || this.actualBlock.y === 0) {
       this.landBlock()
-      this.createBlock(Math.floor(this.sizeX / 2) - 3, this.sizeY - 3)
+      this.createBlock(Math.floor(this.sizeX / 2), this.sizeY - 3)
     } else {
       this.actualBlock.y -= 1
+    }
+  }
+
+  moveActualBlockLeft () {
+    if (!this.checkBlockCollision('left')) {
+      try {
+        this.actualBlock.x--
+      } catch (e) {}
+    }
+  }
+
+  moveActualBlockRight () {
+    if (!this.checkBlockCollision('right')) {
+      try {
+        this.actualBlock.x++
+      } catch (e) {}
     }
   }
 
@@ -71,12 +90,23 @@ export class Game {
   /**
    * Check actual block collision with landed blocks on the landed array
    */
-  checkBlockCollision () {
+  checkBlockCollision (direction) {
     let collision = false
     for (let x = 0; x < this.actualBlock.shape.length; x++) {
       for (let y = 0; y < this.actualBlock.shape[0].length; y++) {
         if (this.actualBlock.shape[x][y] === 1) {
-          if (this.landed[this.actualBlock.x + x][this.actualBlock.y + y - 1] !== 0) collision = true
+          switch (direction) {
+            case 'down':
+              if (this.landed[this.actualBlock.x + x][this.actualBlock.y + y - 1] !== 0) collision = true
+              break
+            case 'left':
+              if (this.landed[this.actualBlock.x + x - 1][this.actualBlock.y + y] !== 0) collision = true
+              break
+            case 'right':
+              if (this.landed[this.actualBlock.x + x + 1][this.actualBlock.y + y] !== 0) collision = true
+              break
+          }
+          
         }
       }
     }
@@ -99,6 +129,12 @@ export class Game {
     let keyCode = event.keyCode
     if (keyCode === 83 || keyCode === 40) { // s OR down arrow
       this.moveActualBlockDown()
+    }
+    if (keyCode === 68 || keyCode === 39) { // d OR right arrow
+      this.moveActualBlockRight()
+    }
+    if (keyCode === 65 || keyCode === 37) { // a OR left arrow
+      this.moveActualBlockLeft()
     }
   }
 
