@@ -9,10 +9,11 @@ export class Block {
     this.y = y
     // Generate number from range ( 0 - 6 ) - 7 elements
     this.type = Math.round(Math.random() * 6)
+    this.shape = this.generateShape(this.type)
   }
 
-  get shape () {
-    switch (this.type) {
+  generateShape (type) {
+    switch (type) {
       case 0:
         return [
           [1, 1, 1, 1],
@@ -62,6 +63,17 @@ export class Block {
           [0, 0, 0, 0],
           [0, 0, 0, 0]
         ]
+    }
+  }
+
+  rotate () {
+    this.shape = this.shape.reverse()
+    for (var i = 0; i < this.shape.length; i++) {
+      for (var j = 0; j < i; j++) {
+        var temp = this.shape[i][j]
+        this.shape[i][j] = this.shape[j][i]
+        this.shape[j][i] = temp
+      }
     }
   }
 

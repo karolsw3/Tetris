@@ -106,7 +106,6 @@ export class Game {
               if (this.landed[this.actualBlock.x + x + 1][this.actualBlock.y + y] !== 0) collision = true
               break
           }
-          
         }
       }
     }
@@ -135,6 +134,9 @@ export class Game {
     }
     if (keyCode === 65 || keyCode === 37) { // a OR left arrow
       this.moveActualBlockLeft()
+    }
+    if (keyCode === 87 || keyCode === 38) { // w OR up arrow
+      this.actualBlock.rotate()
     }
   }
 
