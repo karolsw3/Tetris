@@ -21,7 +21,7 @@ export class View {
   renderFrame (landed, actualBlock) {
     this._drawBackground(this.backgroundColor)
     for (let i = 0; i < landed.length; i++) {
-      for (let j = 0; j < landed[0].length; j++) {
+      for (let j = 0; j < landed[i].length; j++) {
         if (landed[i][j] !== 0) {
           // Create new block to get its color by its type
           let block = new Block(900, 900)
@@ -43,7 +43,7 @@ export class View {
 
   _renderBlock (x, y, shape, color) {
     for (let i = 0; i < shape.length; i++) {
-      for (let j = 0; j < shape[0].length; j++) {
+      for (let j = 0; j < shape[i].length; j++) {
         if (shape[i][j] === 1) {
           this._drawSquare(x + i, y + j, this.tileWidth, color)
         }

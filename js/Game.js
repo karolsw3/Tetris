@@ -7,7 +7,6 @@ import { View } from './View.js'
  */
 export class Game {
   constructor () {
-    console.log('jprdl')
     this.actualBlock = {}
     this.sizeX = 0
     this.view = {}
@@ -50,7 +49,7 @@ export class Game {
    */
   moveActualBlockDown () {
     // If any collision occurs - add the block to the landed blocks array
-    if (this.checkBlockCollision('down') || this.actualBlock.y === 0) {
+    if (this.checkBlockCollision('down')) {
       this.landBlock()
       this.createBlock(Math.floor(this.sizeX / 2), this.sizeY - 3)
     } else {
@@ -79,7 +78,7 @@ export class Game {
    */
   landBlock () {
     for (let x = 0; x < this.actualBlock.shape.length; x++) {
-      for (let y = 0; y < this.actualBlock.shape[0].length; y++) {
+      for (let y = 0; y < this.actualBlock.shape[x].length; y++) {
         if (this.actualBlock.shape[x][y] === 1) {
           this.landed[this.actualBlock.x + x][this.actualBlock.y + y] = this.actualBlock.type
         }
@@ -93,19 +92,22 @@ export class Game {
   checkBlockCollision (direction) {
     let collision = false
     for (let x = 0; x < this.actualBlock.shape.length; x++) {
-      for (let y = 0; y < this.actualBlock.shape[0].length; y++) {
+      for (let y = 0; y < this.actualBlock.shape[x].length; y++) {
         if (this.actualBlock.shape[x][y] === 1) {
-          switch (direction) {
-            case 'down':
-              if (this.landed[this.actualBlock.x + x][this.actualBlock.y + y - 1] !== 0) collision = true
-              break
-            case 'left':
-              if (this.landed[this.actualBlock.x + x - 1][this.actualBlock.y + y] !== 0) collision = true
-              break
-            case 'right':
-              if (this.landed[this.actualBlock.x + x + 1][this.actualBlock.y + y] !== 0) collision = true
-              break
-          }
+          try {
+            switch (direction) {
+              case 'down':
+                if (this.landed[this.actualBlock.x + x][this.actualBlock.y + y - 1] !== 0) collision = true
+                else if (this.actualBlock.y + y === 0) collision = true
+                break
+              case 'left':
+                if (this.landed[this.actualBlock.x + x - 1][this.actualBlock.y + y] !== 0) collision = true
+                break
+              case 'right':
+                if (this.landed[this.actualBlock.x + x + 1][this.actualBlock.y + y] !== 0) collision = true
+                break
+            }
+          } catch (e) { collision = true }
         }
       }
     }
@@ -137,6 +139,12 @@ export class Game {
     }
     if (keyCode === 87 || keyCode === 38) { // w OR up arrow
       this.actualBlock.rotate()
+      // Do not rotate if any collision occurs
+      for (let i = 0; i < 3; i++) {
+        if (this.checkBlockCollision('right') || this.checkBlockCollision('left')) {
+          this.actualBlock.rotate()
+        }
+      }
     }
   }
 

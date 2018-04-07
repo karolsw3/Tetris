@@ -8,60 +8,53 @@ export class Block {
     this.x = x
     this.y = y
     // Generate number from range ( 0 - 6 ) - 7 elements
-    this.type = Math.round(Math.random() * 6)
+    this.type = Math.round(Math.random() * 6) + 1
     this.shape = this.generateShape(this.type)
   }
 
   generateShape (type) {
     switch (type) {
-      case 0:
+      case 1:
         return [
           [1, 1, 1, 1],
           [0, 0, 0, 0],
           [0, 0, 0, 0],
           [0, 0, 0, 0]
         ]
-      case 1:
-        return [
-          [1, 0, 0, 0],
-          [1, 1, 1, 0],
-          [0, 0, 0, 0],
-          [0, 0, 0, 0]
-        ]
       case 2:
         return [
-          [0, 0, 1, 0],
-          [1, 1, 1, 0],
-          [0, 0, 0, 0],
-          [0, 0, 0, 0]
+          [1, 0, 0],
+          [1, 1, 1],
+          [0, 0, 0]
         ]
       case 3:
         return [
-          [1, 1, 0, 0],
-          [1, 1, 0, 0],
-          [0, 0, 0, 0],
-          [0, 0, 0, 0]
+          [0, 0, 1],
+          [1, 1, 1],
+          [0, 0, 0]
         ]
       case 4:
         return [
-          [0, 1, 1, 0],
-          [1, 1, 0, 0],
-          [0, 0, 0, 0],
-          [0, 0, 0, 0]
+          [1, 1],
+          [1, 1]
         ]
       case 5:
         return [
-          [0, 1, 0, 0],
-          [1, 1, 1, 0],
-          [0, 0, 0, 0],
-          [0, 0, 0, 0]
+          [0, 1, 1],
+          [1, 1, 0],
+          [0, 0, 0]
         ]
       case 6:
         return [
-          [1, 1, 0, 0],
-          [0, 1, 1, 0],
-          [0, 0, 0, 0],
-          [0, 0, 0, 0]
+          [0, 1, 0],
+          [1, 1, 1],
+          [0, 0, 0]
+        ]
+      case 7:
+        return [
+          [1, 1, 0],
+          [0, 1, 1],
+          [0, 0, 0]
         ]
     }
   }
@@ -79,19 +72,19 @@ export class Block {
 
   get color () {
     switch (this.type) {
-      case 0:
-        return 'blue'
       case 1:
-        return 'red'
+        return 'blue'
       case 2:
-        return 'yellow'
-      case 3:
-        return 'green'
-      case 4:
-        return 'purple'
-      case 5:
         return 'red'
+      case 3:
+        return 'yellow'
+      case 4:
+        return 'green'
+      case 5:
+        return 'purple'
       case 6:
+        return 'red'
+      case 7:
         return 'blue'
     }
   }
