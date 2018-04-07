@@ -5,8 +5,9 @@ import View from './View'
  * Main class responsible for everything what is going on in the game
  * @constructor Game
  */
-class Game {
+export class Game {
   constructor () {
+    console.log('jprdl')
     this.view = new View()
     this.actualBlock = {}
     this.sizeX = 0
@@ -20,6 +21,7 @@ class Game {
    * Initalize the game and start it
    */
   init (sizeX, sizeY) {
+    console.log('Initialising the game...')
     this.sizeX = sizeX
     this.sizeY = sizeY
     // Fill the landed array with empty tiles
@@ -102,5 +104,3 @@ class Game {
     this.paused = !this.paused
   }
 }
-
-export default Game
