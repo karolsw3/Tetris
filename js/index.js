@@ -1,4 +1,3 @@
 import { Game } from './Game.js'
-
 var game = new Game()
-game.init(45, 20)
+game.init(12, 20)

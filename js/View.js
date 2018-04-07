@@ -1,15 +1,16 @@
-import Block from './Block'
+import { Block } from './Block.js'
 
 /**
  * Class responsible for game visual display
  * @constructor View
  */
-class View {
-  constructor () {
+export class View {
+  constructor (sizeX, sizeY) {
     this.canvas = document.getElementById('canvas')
     this.ctx = this.canvas.getContext('2d')
     this.backgroundColor = '#111211'
     this.tileWidth = 20
+    this.resizeCanvas(sizeX, sizeY)
   }
 
   /**
@@ -23,7 +24,7 @@ class View {
       for (let j = 0; j < landed[0].length; j++) {
         if (landed[i][j] !== 0) {
           // Create new block to get its color by its type
-          let block = new Block()
+          let block = new Block(900, 900)
           block.type = landed[i][j]
           this._drawSquare(i, j, this.tileWidth, block.color)
         }
@@ -35,16 +36,16 @@ class View {
   /**
    * Resize canvas to standard width and height
    */
-  resizeCanvas () {
-    this.canvas.width = this.landed.sizeX * this.landed.tileWidth
-    this.canvas.height = this.landed.sizeY * this.landed.tileWidth
+  resizeCanvas (sizeX, sizeY) {
+    this.canvas.width = sizeX * this.tileWidth
+    this.canvas.height = sizeY * this.tileWidth
   }
 
   _renderBlock (x, y, shape, color) {
     for (let i = 0; i < shape.length; i++) {
       for (let j = 0; j < shape[0].length; j++) {
         if (shape[i][j] === 1) {
-          this._drawSquare(x, y, this.tileWidth, color)
+          this._drawSquare(x + i, y + j, this.tileWidth, color)
         }
       }
     }
@@ -58,9 +59,7 @@ class View {
   }
 
   _drawBackground (color) {
-    this.ctx.fillStyle(color)
+    this.ctx.fillStyle = color
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
   }
 }
-
-export default View

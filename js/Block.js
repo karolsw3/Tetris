@@ -2,21 +2,11 @@
  * Class responsible for providing information about block type and its location
  * @constructor Block
  */
-class Block {
-  constructor (param) {
+export class Block {
+  constructor (x, y) {
     // Generate Locations
-    this.x = (
-      param.loc.x || (function () {
-        console.warn("Location x isn't defined")
-        return undefined
-      })()
-    )
-    this.y = (
-      param.loc.y || (function () {
-        console.warn("Location y isn't defined")
-        return undefined
-      })()
-    )
+    this.x = x
+    this.y = y
     // Generate number from range ( 0 - 6 ) - 7 elements
     this.type = Math.round(Math.random() * 6)
   }
@@ -94,4 +84,3 @@ class Block {
     }
   }
 }
-export default Block
