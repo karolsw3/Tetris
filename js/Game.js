@@ -14,6 +14,7 @@ export class Game {
     this.landed = []
     this.paused = false
     this.score = 0
+    this.gameOver = false
   }
 
   /**
@@ -24,8 +25,8 @@ export class Game {
     this.sizeX = sizeX
     this.sizeY = sizeY
     // Fill the landed array with empty tiles
-    this.landed = Array(...Array(sizeX)).map(() => Array(sizeY).fill(0))
-    this.createBlock(Math.round(sizeX / 2), Math.round(sizeY / 2))
+    this.createLandedArray()
+    this.createBlock()
     this.startGameInterval(200)
 
     document.addEventListener('keydown', (e) => this.keyDown(e))
@@ -33,15 +34,28 @@ export class Game {
 
   startGameInterval (frameTime) {
     setInterval(() => {
-      this.moveActualBlockDown()
+      if (!this.paused || !this.gameOver) {
+        this.moveActualBlockDown()
+      }
     }, frameTime)
     setInterval(() => {
-      this.view.renderFrame(this.landed, this.actualBlock)
+      if (this.gameOver) {
+        this.view.renderText('Game over<br>press space to restart')
+      } else if (this.paused) {
+        this.view.renderText('Game paused<br>press space to unpause')
+      } else {
+        this.view.renderFrame(this.landed, this.actualBlock)
+        this.view.renderText('')
+      }
     }, 10)
   }
 
-  createBlock (x, y) {
-    this.actualBlock = new Block(x, y)
+  createBlock () {
+    this.actualBlock = new Block(Math.floor(this.sizeX / 2), this.sizeY - 3)
+  }
+
+  createLandedArray () {
+    this.landed = Array(...Array(this.sizeX)).map(() => Array(this.sizeY).fill(0))
   }
 
   /**
@@ -52,7 +66,10 @@ export class Game {
     if (this.checkBlockCollision('down')) {
       this.landBlock()
       this.checkFullRow()
-      this.createBlock(Math.floor(this.sizeX / 2), this.sizeY - 3)
+      this.createBlock()
+      if (this.checkBlockCollision('down')) {
+        this.gameOver = true
+      }
     } else {
       this.actualBlock.y -= 1
     }
@@ -147,8 +164,10 @@ export class Game {
    * Restart the game
    */
   restart () {
-    this.landed = Array(...Array(this.sizeX)).map(() => Array(this.sizeY))
-    this.createBlock(Math.round(this.sizeX / 2), Math.round(this.sizeY / 2))
+    this.gameOver = false
+    this.score = 0
+    this.createLandedArray()
+    this.createBlock()
   }
 
   /**
@@ -157,22 +176,29 @@ export class Game {
    */
   keyDown (event) {
     let keyCode = event.keyCode
-    if (keyCode === 83 || keyCode === 40) { // s OR down arrow
+    if ((keyCode === 83 || keyCode === 40) && !this.paused) { // s OR down arrow
       this.moveActualBlockDown()
     }
-    if (keyCode === 68 || keyCode === 39) { // d OR right arrow
+    if ((keyCode === 68 || keyCode === 39) && !this.paused) { // d OR right arrow
       this.moveActualBlockRight()
     }
-    if (keyCode === 65 || keyCode === 37) { // a OR left arrow
+    if ((keyCode === 65 || keyCode === 37) && !this.paused) { // a OR left arrow
       this.moveActualBlockLeft()
     }
-    if (keyCode === 87 || keyCode === 38) { // w OR up arrow
+    if ((keyCode === 87 || keyCode === 38) && !this.paused) { // w OR up arrow
       this.actualBlock.rotate()
       // Do not rotate if any collision occurs
       for (let i = 0; i < 3; i++) {
         if (this.checkBlockCollision('right') || this.checkBlockCollision('left')) {
           this.actualBlock.rotate()
         }
+      }
+    }
+    if (keyCode === 32) { // spacebar
+      if (this.gameOver) {
+        this.restart()
+      } else {
+        this.togglePause()
       }
     }
   }

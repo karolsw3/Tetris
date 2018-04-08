@@ -8,8 +8,9 @@ export class View {
   constructor (sizeX, sizeY) {
     this.canvas = document.getElementById('canvas')
     this.ctx = this.canvas.getContext('2d')
+    this.text = document.getElementsByClassName('text')[0]
     this.backgroundColor = '#111211'
-    this.tileWidth = 20
+    this.tileWidth = window.innerHeight / sizeY
     this.resizeCanvas(sizeX, sizeY)
   }
 
@@ -31,6 +32,14 @@ export class View {
       }
     }
     this._renderBlock(actualBlock.x, actualBlock.y, actualBlock.shape, actualBlock.color)
+  }
+
+  /**
+   * Displays specified text on the middle of the canvas
+   * @param {string} text - Text to be shown
+   */
+  renderText (text) {
+    this.text.innerHTML = text
   }
 
   /**
