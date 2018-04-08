@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 body, html {
   margin: 0;
   padding: 0;
   background: black;
+  font-family: 'Roboto', sans-serif;
 }
 
 canvas {
@@ -17,7 +20,8 @@ canvas {
 .text {
   position: absolute;
   margin: 0 auto;
-  font-size: 20px;
+  font-size: 2em;
+  text-shadow: 0 0 16px rgba(255, 255, 255, .3);
   color: white;
   font-weight: 700;
   text-align: center;

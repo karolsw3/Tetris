@@ -9,7 +9,7 @@ export class View {
     this.canvas = document.getElementById('canvas')
     this.ctx = this.canvas.getContext('2d')
     this.text = document.getElementsByClassName('text')[0]
-    this.backgroundColor = '#111211'
+    this.backgroundColor = '#2e294e'
     this.tileWidth = window.innerHeight / sizeY
     this.resizeCanvas(sizeX, sizeY)
   }

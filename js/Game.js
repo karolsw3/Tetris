@@ -34,7 +34,7 @@ export class Game {
 
   startGameInterval (frameTime) {
     setInterval(() => {
-      if (!this.paused || !this.gameOver) {
+      if (!this.paused && !this.gameOver) {
         this.moveActualBlockDown()
       }
     }, frameTime)

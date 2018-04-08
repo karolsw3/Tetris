@@ -73,19 +73,19 @@ export class Block {
   get color () {
     switch (this.type) {
       case 1:
-        return 'blue'
+        return '#50ffb1'
       case 2:
-        return 'red'
+        return '#50ffb1'
       case 3:
-        return 'yellow'
+        return '#ff1053'
       case 4:
-        return 'green'
+        return '#d7dedc'
       case 5:
-        return 'purple'
+        return '#9368b7'
       case 6:
-        return 'red'
+        return '#6369d1'
       case 7:
-        return 'blue'
+        return '#e6c79c'
     }
   }
 }
