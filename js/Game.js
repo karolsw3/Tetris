@@ -20,7 +20,7 @@ export class Game {
    * Initalize the game and start it
    */
   init (sizeX, sizeY) {
-    this.view = new View(sizeX, sizeY)    
+    this.view = new View(sizeX, sizeY)
     this.sizeX = sizeX
     this.sizeY = sizeY
     // Fill the landed array with empty tiles
@@ -51,6 +51,7 @@ export class Game {
     // If any collision occurs - add the block to the landed blocks array
     if (this.checkBlockCollision('down')) {
       this.landBlock()
+      this.checkFullRow()
       this.createBlock(Math.floor(this.sizeX / 2), this.sizeY - 3)
     } else {
       this.actualBlock.y -= 1
@@ -112,6 +113,34 @@ export class Game {
       }
     }
     return collision
+  }
+
+  /**
+   * Checks is there is a row filled with blocks in landed matrix and clears it raising the game score
+   */
+  checkFullRow () {
+    for (let row = 0; row < this.landed[0].length; row++) {
+      let result = true
+      for (let col = 0; col < this.landed.length; col++) {
+        if (this.landed[col][row] === 0) result = false
+      }
+      if (result) {
+        this.moveLandedDown(row)
+        this.score += 100
+      }
+    }
+  }
+
+  /**
+   * Move all landed blocks one row down starting from given row
+   * @param {number} row - Number of row from which to start
+   */
+  moveLandedDown (row) {
+    for (let y = row; y < this.landed[0].length - 1; y++) {
+      for (let col = 0; col < this.landed.length; col++) {
+        this.landed[col][y] = this.landed[col][y + 1]
+      }
+    }
   }
 
   /**
