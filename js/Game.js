@@ -144,6 +144,7 @@ export class Game {
       if (result) {
         this.moveLandedDown(row)
         this.score += 100
+        this.view.score.innerHTML = 'Score: ' + this.score
       }
     }
   }
@@ -166,6 +167,7 @@ export class Game {
   restart () {
     this.gameOver = false
     this.score = 0
+    this.view.score.innerHTML = 'Score: 0'
     this.createLandedArray()
     this.createBlock()
   }

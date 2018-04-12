@@ -17,11 +17,23 @@ canvas {
   align-items: center;
 }
 
+.score {
+  display: inline-block;
+  text-align: center;
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 0;
+  z-index: 3;
+}
+
 .text {
   position: absolute;
   margin: 0 auto;
   font-size: 2em;
-  text-shadow: 0 0 16px rgba(255, 255, 255, .3);
+  text-shadow: 0 0 16px rgba(0, 0, 0, 0.541);
   color: white;
   font-weight: 700;
   text-align: center;
